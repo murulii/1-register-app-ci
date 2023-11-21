@@ -1,14 +1,14 @@
 pipeline {
-    agent { label 'Jenkins-Agent' }
+    
     tools {
-        jdk 'Java17'
-        maven 'Maven3'
+        jdk 'jdk'
+        maven 'maven'
     }
     environment {
 	    APP_NAME = "register-app-pipeline"
             RELEASE = "1.0.0"
-            DOCKER_USER = "ashfaque9x"
-            DOCKER_PASS = 'dockerhub'
+            DOCKER_USER = "murulii"
+            DOCKER_PASS = 'Depl0y@123'
             IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
             IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
 	    JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
@@ -22,7 +22,7 @@ pipeline {
 
         stage("Checkout from SCM"){
                 steps {
-                    git branch: 'main', credentialsId: 'github', url: 'https://github.com/Ashfaque-9x/register-app'
+                    git branch: 'checkout', credentialsId: 'github', url: 'https://github.com/murulii/1-register-app-ci'
                 }
         }
 
@@ -42,7 +42,7 @@ pipeline {
        stage("SonarQube Analysis"){
            steps {
 	           script {
-		        withSonarQubeEnv(credentialsId: 'jenkins-sonarqube-token') { 
+		        withSonarQubeEnv(credentialsId: 'sonartocken') { 
                         sh "mvn sonar:sonar"
 		        }
 	           }	
@@ -52,7 +52,7 @@ pipeline {
        stage("Quality Gate"){
            steps {
                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-sonarqube-token'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonartocken'
                 }	
             }
 
