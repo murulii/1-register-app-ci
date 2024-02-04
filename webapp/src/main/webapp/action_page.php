@@ -1,10 +1,10 @@
 <?php
 
 // Database configuration
-$servername = "your_database_host"; // Replace with your database host
-$username = "your_database_username"; // Replace with your database username
-$password = "your_database_password"; // Replace with your database password
-$dbname = "your_database_name"; // Replace with your database name
+$servername = "172.17.0.5"; // Replace with your database host
+$username = "root"; // Replace with your database username
+$password = "root"; // Replace with your database password
+$dbname = "muruli"; // Replace with your database name
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
