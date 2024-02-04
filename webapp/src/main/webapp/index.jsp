@@ -1,38 +1,32 @@
-<form action="">
-  <div class="container">
-    <h1>New user Register for DevOps Learning at Virtual TechBox Youtube Channel</h1>
-    <p>Please fill in this form to create an account.</p>
-    <hr>
-     
-    <label for="Name"><b>Enter Name</b></label>
-    <input type="text" placeholder="Enter Full Name" name="Name" id="Name" required>
-    <br>
-    
-    <label for="mobile"><b>Enter mobile</b></label>
-    <input type="text" placeholder="Enter moible number" name="mobile" id="mobile" required>
-    <br>
+<%@ page import="java.sql.*, java.io.*" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.sql.*" %>
 
-    <label for="email"><b>Enter Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
-    <br>
+<%
+    // Handle form submission
+    if (request.getMethod().equalsIgnoreCase("POST")) {
+        String name = request.getParameter("Name");
+        String mobile = request.getParameter("mobile");
+        String email = request.getParameter("email");
+        String password = request.getParameter("psw");
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-    <br>
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "INSERT INTO users (Name, mobile, email, password) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, name);
+                pstmt.setString(2, mobile);
+                pstmt.setString(3, email);
+                pstmt.setString(4, password);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-    <hr>
-    <br>
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-    <button type="submit" class="registerbtn">Register</button>
-  </div>
-  <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
-  </div>
+        // Redirect or display a thank you message
+        response.sendRedirect("thankyou.jsp");
+    }
+%>
 
-   <h1> Thank You </h1>
-   <br>
-   <h1> Happy Learning. See You Again. </h1>
-   
-</form>
+<!-- Your existing HTML form code goes here -->
